@@ -1,5 +1,5 @@
 import Header from './Header.jsx';
-import Login from './Login.jsx';
+// import Login from './Login.jsx';
 import Signup from './Signup.jsx';
 
 
@@ -8,7 +8,7 @@ function App() {
     <>
       <Header />
       <main>
-        <Login />
+        <Signup />
       </main>
     </>
   );

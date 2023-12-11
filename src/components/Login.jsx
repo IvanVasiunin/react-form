@@ -1,35 +1,43 @@
 import { useState } from 'react';
 
 export default function Login() {
-  // const [enteredEmail, setEnteredEmail] = useState('');
-  // const [enteredPassword, setEnteredPassword] = useState('');
 
   const [enteredValues, setEnteredValues] = useState({
     email: '',
     password: '',
   });
 
-  const emailIsInvalid = enteredValues.email !== '' && !enteredValues.email.includes('@');
+  const [didEdit, setDidEdit] = useState({
+    email: false,
+    password: false
+  });
+
+  const emailIsInvalid = didEdit.email && !enteredValues.email.includes('@');
 
   function handleInputChange(identifier, event) {
     setEnteredValues(prevValues => ({
       ...prevValues,
       [identifier]: event.target.value,
     }));
+
+    setDidEdit(prevEdit => ({
+      ...prevEdit,
+      [identifier]: false
+    }))
   }
 
-  // function handleEmailChange(event) {
-  //   setEnteredEmail(event.target.value);
-  // }
+  function handleInputBlur(identifier) {
+    setDidEdit(prevEdit => ({
+      ...prevEdit,
+      [identifier]: true
+    }))
+  }
 
-  // function handlePasswordChange(event) {
-  //   setEnteredPassword(event.target.value);
-  // }
-
-  function handleSubmit(e) {
-    e.preventDefault();
+  function handleSubmit(event) {
+    event.preventDefault();
     console.log(enteredValues);
   }
+
 
   return (
     <form onSubmit={handleSubmit}>
@@ -43,6 +51,7 @@ export default function Login() {
             type="email"
             name="email"
             onChange={event => handleInputChange('email', event)}
+            onBlur={() => handleInputBlur('email')}
             value={enteredValues.email}
           />
           <div className="control-error">{emailIsInvalid && <p>Please enter a valid emaild adress</p>}</div>
@@ -55,6 +64,7 @@ export default function Login() {
             type="password"
             name="password"
             onChange={event => handleInputChange('password', event)}
+            onBlur={() => handleInputBlur('password')}
             value={enteredValues.password}
           />
         </div>
